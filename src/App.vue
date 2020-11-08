@@ -1,12 +1,33 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <!--    <div id="nav">-->
+    <!--      <router-link to="/">Home</router-link> |-->
+    <!--      <router-link to="/about">About</router-link>-->
+    <!--    </div>-->
+    <Header/>
+    <v-content app>
+      <router-view/>
+    </v-content>
+   <Footer/>
+  </v-app>
 </template>
+
+<script lang="ts">
+import
+
+{ Component, Vue } from 'vue-property-decorator';
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
+
+@Component({
+  components: {
+    Footer,
+    Header,
+  },
+})
+export default class App extends Vue {
+}
+</script>
 
 <style lang="scss">
 #app {
@@ -29,4 +50,6 @@
     }
   }
 }
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet');
 </style>
