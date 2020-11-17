@@ -7,7 +7,7 @@
             <h1 class="display-1">Авторизация</h1>
           </v-card-title>
           <v-card-text>
-            <v-form v-model="valid" ref="form" lazy-validation>
+            <v-form v-model="valid" ref="form" validation>
               <v-text-field
                 label="Имя"
                 prepend-icon="mdi-account-circle"
@@ -31,7 +31,6 @@
             <v-spacer></v-spacer>
             <v-btn
               color="success"
-              @click="onSubmit"
               :disabled="!valid"
             >Войти
             </v-btn>
@@ -44,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Login extends Vue {

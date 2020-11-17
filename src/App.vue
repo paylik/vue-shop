@@ -1,12 +1,18 @@
 <template>
   <v-app>
-    <v-navigation-drawer app temporary>
-      <!-- -->
+    <v-navigation-drawer
+      app
+      temporary
+      v-model="drawer"
+    >
+      <Drawer/>
     </v-navigation-drawer>
-    <Header/>
-    <v-content app>
+    <Header
+      @toggleDrawer="drawer = !drawer"
+    ></Header>
+    <v-main app>
       <router-view/>
-    </v-content>
+    </v-main>
    <Footer/>
   </v-app>
 </template>
@@ -17,14 +23,17 @@ import
 { Component, Vue } from 'vue-property-decorator';
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
+import Drawer from '@/components/Drawer.vue';
 
 @Component({
   components: {
     Footer,
     Header,
+    Drawer,
   },
 })
 export default class App extends Vue {
+  private drawer = false
 }
 </script>
 

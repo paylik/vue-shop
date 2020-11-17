@@ -31,6 +31,11 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Promotions.vue'),
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue'),
+  },
+  {
     path: '/*',
     name: 'E404',
     component: () => import('../views/E404.vue'),
