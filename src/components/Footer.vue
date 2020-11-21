@@ -14,9 +14,9 @@
         text
         rounded
         class="my-2"
-        :to="link.url"
+        :to="link.link"
       >
-        {{ link.label }}
+        {{ link.title }}
       </v-btn>
       <v-col
         class="primary lighten-2 py-4 text-center white--text"
@@ -35,33 +35,7 @@ import
 
 @Component
 export default class Footer extends Vue {
-  private links: Array<object> = [
-    {
-      label: 'Домой',
-      url: '/',
-      id: 1,
-    },
-    {
-      label: 'Продукция',
-      url: '/products',
-      id: 2,
-    },
-    {
-      label: 'О нас',
-      url: '/about',
-      id: 3,
-    },
-    {
-      label: 'Сертификаты',
-      url: '/cert',
-      id: 4,
-    },
-    {
-      label: 'Акции',
-      url: '/promotions',
-      id: 5,
-    },
-  ];
+  private links: Array<object> = this.$store.getters.links
 }
 </script>
 

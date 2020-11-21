@@ -11,7 +11,7 @@
               <v-text-field
                 label="Имя"
                 prepend-icon="mdi-account-circle"
-                v-model="name"
+                v-model="email"
                 :rules="nameRules"
               ></v-text-field>
               <v-text-field
@@ -31,7 +31,9 @@
             <v-spacer></v-spacer>
             <v-btn
               color="success"
-              :disabled="!valid"
+              :loading="loading"
+              :disabled="!valid || loading"
+              @click="onSubmit"
             >Войти
             </v-btn>
           </v-card-actions>
@@ -53,7 +55,9 @@ export default class Login extends Vue {
 
   private valid = false;
 
-  private name = '';
+  private loading = false;
+
+  private email = '';
 
   private nameRules = [
     (v: any) => !!v || 'Имя не определено',
@@ -65,7 +69,21 @@ export default class Login extends Vue {
     (v: any) => !!v || 'Пароль не введен',
     (v: any) => v.length >= 8 || 'Пароль должен быть не менее 8 символов'];
 
-  // private onSubmit(): void {};
+  private onSubmit(): void {
+    if (this.$refs.form.validate()) {
+      const user = {
+        email: this.email,
+        password: this.password,
+      };
+      this.$store.dispatch('loginUser', user)
+        .then(() => this.$router.push('/'))
+        .catch(() => console.log(this.email));
+    }
+  }
+
+  private loading(): void {
+    return this.$store.getters.loading;
+  }
 }
 </script>
 

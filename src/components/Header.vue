@@ -31,16 +31,20 @@
       text
       rounded
       class="my-2 hidden-sm-and-down"
-      :to="link.url"
+      :to="link.link"
     >
-      {{ link.label }}
+      {{ link.title }}
     </v-btn>
 
     <v-spacer></v-spacer>
 
     <v-btn icon>
       <router-link to="/login" tag="span" class="pointer">
-        <v-icon>mdi-dots-vertical</v-icon>
+        <v-icon
+          v-if="isUserLoggedIn"
+          @click="logOut"
+        >mdi-logout</v-icon>
+        <v-icon v-else>mdi-dots-vertical</v-icon>
       </router-link>
     </v-btn>
   </v-app-bar>
@@ -53,33 +57,15 @@ import
 
 @Component
 export default class Header extends Vue {
-  private links: Array<object> = [
-    {
-      label: 'Домой',
-      url: '/',
-      id: 1,
-    },
-    {
-      label: 'Продукция',
-      url: '/products',
-      id: 2,
-    },
-    {
-      label: 'О нас',
-      url: '/about',
-      id: 3,
-    },
-    {
-      label: 'Сертификаты',
-      url: '/cert',
-      id: 4,
-    },
-    {
-      label: 'Акции',
-      url: '/promotions',
-      id: 5,
-    },
-  ];
+  private links: Array<object> = this.$store.getters.links
+
+  get isUserLoggedIn(): boolean {
+    return this.$store.getters.isUserLoggedIn;
+  }
+
+  public logOut(): void {
+    this.$store.dispatch('logout');
+  }
 }
 </script>
 

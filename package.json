@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "@jamescoyle/vue-icon": "^0.1.0",
+    "@mdi/font": "^5.8.55",
     "@mdi/js": "^5.8.55",
     "core-js": "^3.6.5",
+    "firebase": "^8.1.1",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
@@ -39,6 +41,19 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3",
-    "vue-template-compiler": "^2.6.11"
-  }
+    "vue-template-compiler": "^2.6.11",
+    "firebase": "^8.1.1"
+  },
+  "description": "## Project setup ``` npm install ```",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paylik/vue-shop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paylik/vue-shop/issues"
+  },
+  "homepage": "https://github.com/paylik/vue-shop#readme"
 }
