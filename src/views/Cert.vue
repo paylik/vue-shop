@@ -9,7 +9,7 @@ import
 import Content from '@/components/Content.vue';
 
 @Component({
-  components: {Content},
+  components: { Content },
 })
 export default class Cert extends Vue {
 }
