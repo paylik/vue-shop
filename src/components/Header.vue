@@ -37,7 +37,11 @@
     </v-btn>
 
     <v-spacer></v-spacer>
-
+    <v-btn icon>
+      <router-link to="/add" tag="span" class="pointer">
+        <v-icon>mdi-plus-circle-outline</v-icon>
+      </router-link>
+    </v-btn>
     <v-btn icon>
       <router-link to="/login" tag="span" class="pointer">
         <v-icon

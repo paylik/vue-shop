@@ -24,14 +24,14 @@
           prepend-icon="mdi-camera"
           @change="onFileChange($event)"
         ></v-file-input>
-<!--        <input type="file" accept="image/*" class="mx-auto py-2">-->
+        <!--        <input type="file" accept="image/*" class="mx-auto py-2">-->
       </v-row>
       <v-row class="subtitle 1">
         {{ description }}
         <v-textarea auto-grow v-model="description"></v-textarea>
       </v-row>
       <v-row>
-        <v-btn class="warning mx-auto" @click="onFileChange"> Обновить </v-btn>
+        <v-btn class="warning mx-auto" @click="onFileChange"> Добавить </v-btn>
       </v-row>
     </v-container>
   </div>
@@ -44,7 +44,7 @@ import
 
 { Component, Vue } from 'vue-property-decorator';
 
-class Link {
+class AddListClass {
   title: string;
 
   description: string;
@@ -69,19 +69,12 @@ class Link {
 }
 
 @Component
-export default class Content extends Vue {
-  private linksOb: Link = this.$store.getters.links.find(
-    (ob: Link) => ob.link === this.$route.name.toLowerCase(),
-  );
+export default class AddList extends Vue {
+  // private linksOb: AddListClass = this.$store.getters.links.find(
+  //   (ob: AddListClass) => ob.link === this.$route.name.toLowerCase(),
+  // );
 
-  private link = new Link(
-    this.linksOb.title,
-    this.linksOb.description,
-    this.linksOb.id,
-    this.linksOb.link,
-    this.linksOb.image,
-    this.linksOb.img,
-  );
+  private link = new AddListClass('', '', '', '', '', '');
 
   private title: string = this.link.title;
 

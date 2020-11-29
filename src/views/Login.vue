@@ -31,8 +31,8 @@
             <v-spacer></v-spacer>
             <v-btn
               color="success"
-              :loading="loading"
-              :disabled="!valid || loading"
+              :loading="!loading"
+              :disabled="!valid || !loading"
               @click="onSubmit"
             >Войти
             </v-btn>
@@ -54,8 +54,6 @@ export default class Login extends Vue {
   private showPassword = false;
 
   private valid = false;
-
-  private loading = false;
 
   private email = '';
 

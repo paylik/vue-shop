@@ -36,6 +36,11 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Login.vue'),
   },
   {
+    path: '/add',
+    name: 'AddList',
+    component: () => import('../views/AddList.vue'),
+  },
+  {
     path: '/*',
     name: 'E404',
     component: () => import('../views/E404.vue'),
