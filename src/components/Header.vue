@@ -34,6 +34,7 @@
       :to="link.link"
     >
       {{ link.title }}
+      {{ link.id }}
     </v-btn>
 
     <v-spacer></v-spacer>

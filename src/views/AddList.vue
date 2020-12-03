@@ -10,6 +10,14 @@
         </v-col>
       </v-row>
       <v-row>
+        <v-col>
+          <div>
+            {{ url }}
+            <v-text-field v-model="url"></v-text-field>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row>
         <v-img
           max-height="350"
           max-width="650"
@@ -31,7 +39,7 @@
         <v-textarea auto-grow v-model="description"></v-textarea>
       </v-row>
       <v-row>
-        <v-btn class="warning mx-auto" @click="onFileChange"> Добавить </v-btn>
+        <v-btn class="warning mx-auto" @click="createLink"> Добавить </v-btn>
       </v-row>
     </v-container>
   </div>
@@ -70,10 +78,6 @@ class AddListClass {
 
 @Component
 export default class AddList extends Vue {
-  // private linksOb: AddListClass = this.$store.getters.links.find(
-  //   (ob: AddListClass) => ob.link === this.$route.name.toLowerCase(),
-  // );
-
   private link = new AddListClass('', '', '', '', '', '');
 
   private title: string = this.link.title;
@@ -84,6 +88,10 @@ export default class AddList extends Vue {
 
   private img = 'null';
 
+  private url = this.link.link;
+
+  private id = this.link.id;
+
   private onFileChange(event: any): void {
     const file = event.name;
     if (file !== undefined) {
@@ -92,9 +100,25 @@ export default class AddList extends Vue {
       reader.onload = () => {
         this.image = reader.result;
         this.img = file;
-        console.log(typeof this.img);
       };
     }
+  }
+
+  private createLink(): void {
+    const link = {
+      title: this.title,
+      description: this.description,
+      image: this.image,
+      link: this.url,
+      id: this.id,
+    };
+
+    this.$store.dispatch('createLink', link)
+      .then(() => {
+        this.$router.push('/');
+      })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      .catch(() => {});
   }
 }
 </script>

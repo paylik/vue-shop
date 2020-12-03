@@ -74,22 +74,15 @@ export default new Vuex.Store({
         const newLink = new Link(
           payload.title,
           payload.link,
-          payload.image,
+          '',
           payload.description,
-          payload.id,
+          '100',
         );
 
         const link = await firebase.database().ref('links').push(newLink);
+        console.log(image);
         const imageExt = image.name.slice(image.name.lastIndexOf('.'));
         console.log(imageExt);
-
-        // const fileData = await firebase.storage()
-        //   .ref('links/${link.key}.${imageExt}').put(image);
-        // const imageSrc = fileData.metadata.name;
-        //
-        // await firebase.database().ref('links').child(link.key).update(
-        //   { imageSrc },
-        // );
 
         commit('setLoading', false);
         commit('createLink', {
