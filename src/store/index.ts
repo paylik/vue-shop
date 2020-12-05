@@ -64,11 +64,11 @@ export default new Vuex.Store({
     clearError({ commit }) {
       commit('clearError');
     },
-    async createLink({ commit, getters }, payload) {
+    async createLink({ commit }, payload) {
       commit('clearError');
       commit('setLoading');
 
-      const { image } = payload;
+      const image = payload.image;
 
       try {
         const newLink = new Link(
@@ -80,7 +80,9 @@ export default new Vuex.Store({
         );
 
         const link = await firebase.database().ref('links').push(newLink);
-        console.log(image);
+        console.log(payload);
+        const fileData = await firebase.storage().ref(`links/${link.key}`).put(image);
+        console.log('fileData' + fileData);
         const imageExt = image.name.slice(image.name.lastIndexOf('.'));
         console.log(imageExt);
 

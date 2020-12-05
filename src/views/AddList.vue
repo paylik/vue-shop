@@ -105,7 +105,7 @@ export default class AddList extends Vue {
   }
 
   private createLink(): void {
-    const link = {
+    const newLink = {
       title: this.title,
       description: this.description,
       image: this.image,
@@ -113,7 +113,7 @@ export default class AddList extends Vue {
       id: this.id,
     };
 
-    this.$store.dispatch('createLink', link)
+    this.$store.dispatch('createLink', newLink)
       .then(() => {
         this.$router.push('/');
       })
