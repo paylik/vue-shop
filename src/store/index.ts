@@ -53,6 +53,14 @@ export default new Vuex.Store({
     loadLinks(state, payload) {
       state.links.push(...payload);
     },
+    createLink(state, payload) {
+      state.links.push(payload);
+    },
+    updateLink(state, { title, description, id }) {
+      const link = state.links.find((a) => a.id === id);
+      link.title = title;
+      link.description = description;
+    },
   },
   actions: {
     setLoading({ commit }, payload) {
@@ -68,7 +76,7 @@ export default new Vuex.Store({
       commit('clearError');
       commit('setLoading');
 
-      const image = payload.image;
+      const { image } = payload;
 
       try {
         const newLink = new Link(
@@ -79,18 +87,22 @@ export default new Vuex.Store({
           '100',
         );
 
+        console.log(image);
+
         const link = await firebase.database().ref('links').push(newLink);
-        console.log(payload);
-        const fileData = await firebase.storage().ref(`links/${link.key}`).put(image);
-        console.log('fileData' + fileData);
-        const imageExt = image.name.slice(image.name.lastIndexOf('.'));
-        console.log(imageExt);
+        const imageExt = image.slice(11, 14);
+        const fileData = await firebase.storage().ref(`links/${link.key}.${imageExt}`).put(image);
+        const imageSrc = await firebase.storage().ref(`links/${link.key}.${imageExt}`).getDownloadURL();
+
+        await firebase.database().ref('links').child(link.key).update({
+          image: imageSrc,
+        });
 
         commit('setLoading', false);
         commit('createLink', {
           ...newLink,
           id: link.key,
-          imageSrc,
+          image: imageSrc,
         });
       } catch (error) {
         commit('setError', error.message);
@@ -114,6 +126,23 @@ export default new Vuex.Store({
           );
         });
         commit('loadLinks', resultLinks);
+        commit('setLoading', false);
+      } catch (error) {
+        commit('setError', error.message);
+        commit('setLoading', false);
+        throw error;
+      }
+    },
+    async updateLink({ commit }, { title, description, id }) {
+      commit('clearError');
+      commit('setLoading', true);
+      try {
+        await firebase.database().ref('links').child(id).update({
+          title, description,
+        });
+        commit('updateLink', {
+          title, description, id,
+        });
         commit('setLoading', false);
       } catch (error) {
         commit('setError', error.message);

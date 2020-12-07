@@ -5,7 +5,7 @@
         <v-col>
           <div class="text-h3">
             {{ title }}
-            <v-text-field v-model="title"></v-text-field>
+            <v-text-field v-if="isUserLoggedIn" v-model="title"></v-text-field>
           </div>
         </v-col>
       </v-row>
@@ -19,6 +19,7 @@
       </v-row>
       <v-row>
         <v-file-input
+          v-if="isUserLoggedIn"
           accept="image/*"
           label="File input"
           prepend-icon="mdi-camera"
@@ -28,10 +29,10 @@
       </v-row>
       <v-row class="subtitle 1">
         {{ description }}
-        <v-textarea auto-grow v-model="description"></v-textarea>
+        <v-textarea auto-grow v-if="isUserLoggedIn" v-model="description"></v-textarea>
       </v-row>
       <v-row>
-        <v-btn class="warning mx-auto" @click="onFileChange"> Обновить </v-btn>
+        <v-btn v-if="isUserLoggedIn" class="warning mx-auto" @click="onUpdate"> Обновить </v-btn>
       </v-row>
     </v-container>
   </div>
@@ -91,6 +92,10 @@ export default class Content extends Vue {
 
   private img = 'null';
 
+  get isUserLoggedIn(): boolean {
+    return this.$store.getters.isUserLoggedIn;
+  }
+
   private onFileChange(event: any): void {
     const file = event.name;
     if (file !== undefined) {
@@ -101,6 +106,16 @@ export default class Content extends Vue {
         this.img = file;
         console.log(typeof this.img);
       };
+    }
+  }
+
+  private onUpdate(): void {
+    if (this.title !== '' && this.description !== '') {
+      this.$store.dispatch('updateLink', {
+        title: this.title,
+        description: this.description,
+        id: this.link.id,
+      });
     }
   }
 }

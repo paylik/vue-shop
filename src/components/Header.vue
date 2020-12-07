@@ -34,11 +34,10 @@
       :to="link.link"
     >
       {{ link.title }}
-      {{ link.id }}
     </v-btn>
 
     <v-spacer></v-spacer>
-    <v-btn icon>
+    <v-btn v-if="isUserLoggedIn" icon>
       <router-link to="/add" tag="span" class="pointer">
         <v-icon>mdi-plus-circle-outline</v-icon>
       </router-link>
