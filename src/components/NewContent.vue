@@ -5,6 +5,7 @@
         <v-col>
           <div class="text-h3">
             {{ title }}
+            {{ par }}
             <v-text-field v-if="isUserLoggedIn" v-model="title"></v-text-field>
           </div>
         </v-col>
@@ -25,7 +26,7 @@
           prepend-icon="mdi-camera"
           @change="onFileChange($event)"
         ></v-file-input>
-<!--        <input type="file" accept="image/*" class="mx-auto py-2">-->
+        <!--        <input type="file" accept="image/*" class="mx-auto py-2">-->
       </v-row>
       <v-row class="subtitle 1">
         {{ description }}
@@ -43,7 +44,7 @@
 // eslint-disable-next-line max-classes-per-file
 import
 
-{ Component, Vue } from 'vue-property-decorator';
+{ Component, Vue, Watch } from 'vue-property-decorator';
 
 class Link {
   title: string;
@@ -70,16 +71,20 @@ class Link {
 }
 
 @Component
-export default class Content extends Vue {
-  private nameIdNew = this.$router;
-
-  private nameId = this.$route.name.toLowerCase();
-
-  private n = this.nameId === undefined ? this.nameIdNew : this.nameId
+export default class NewContent extends Vue {
+  private par = this.$route.params.id;
 
   private linksOb: Link = this.$store.getters.links.find(
-    (ob: Link) => ob.link === this.n,
+    (ob: Link) => ob.link === this.par,
   );
+
+  @Watch('par')
+  linkChange() {
+    this.linksOb = this.$store.getters.links.find(
+      (ob: Link) => ob.link === this.par,
+    );
+    console.log(this.par);
+  }
 
   private link = new Link(
     this.linksOb.title,
@@ -110,9 +115,7 @@ export default class Content extends Vue {
       reader.onload = () => {
         this.image = reader.result;
         this.img = file;
-        console.log(this.nameId);
-        console.log(this.nameIdNew);
-        console.log(this.linksOb);
+        console.log(this.$route);
       };
     }
   }

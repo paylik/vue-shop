@@ -61,6 +61,8 @@ import firebase from 'firebase';
   },
 })
 export default class App extends Vue {
+  $props = ['id']
+
   private drawer = false
 
   private snackbar = true

@@ -52,7 +52,7 @@ import
 
 { Component, Vue } from 'vue-property-decorator';
 
-class AddListClass {
+class AddNewsClass {
   title: string;
 
   description: string;
@@ -78,19 +78,19 @@ class AddListClass {
 
 @Component
 export default class AddList extends Vue {
-  private link = new AddListClass('', '', '', '', '', '');
+  private news = new AddNewsClass('', '', '', '', '', '');
 
-  private title: string = this.link.title;
+  private title: string = this.news.title;
 
-  private description: string = this.link.description;
+  private description: string = this.news.description;
 
-  private image: string | ArrayBuffer | null = this.link.image;
+  private image: string | ArrayBuffer | null = this.news.image;
 
   private img = 'null';
 
-  private url = this.link.link;
+  private url = this.news.link;
 
-  private id = this.link.id;
+  private id = this.news.id;
 
   private onFileChange(event: any): void {
     const file = event.name;
@@ -104,8 +104,8 @@ export default class AddList extends Vue {
     }
   }
 
-  private createLink(): void {
-    const newLink = {
+  private createNews(): void {
+    const newNews = {
       title: this.title,
       description: this.description,
       image: this.image,
@@ -113,7 +113,7 @@ export default class AddList extends Vue {
       id: this.id,
     };
 
-    this.$store.dispatch('createLink', newLink)
+    this.$store.dispatch('createNews', newNews)
       .then(() => {
         this.$router.push('/');
       })

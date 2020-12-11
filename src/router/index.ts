@@ -37,8 +37,14 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/add',
-    name: 'AddList',
-    component: () => import('../views/AddList.vue'),
+    name: 'AddNews',
+    component: () => import('../views/AddNews.vue'),
+  },
+  {
+    path: '/news/:id',
+    props: true,
+    name: 'New',
+    component: () => import('../views/News.vue'),
   },
   {
     path: '/*',
