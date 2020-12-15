@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import firebase from 'firebase';
 import user from './user';
+import news, { News } from './news';
 
 Vue.use(Vuex);
 
@@ -72,36 +73,35 @@ export default new Vuex.Store({
     clearError({ commit }) {
       commit('clearError');
     },
-    async createLink({ commit }, payload) {
+    async createNews({ commit }, payload) {
       commit('clearError');
       commit('setLoading');
 
       const { image } = payload;
 
       try {
-        const newLink = new Link(
+        const newNews = new News(
           payload.title,
-          payload.link,
-          '',
           payload.description,
-          '100',
+          payload.image,
+          payload.id,
         );
 
         console.log(image);
 
-        const link = await firebase.database().ref('links').push(newLink);
+        news = await firebase.database().ref('news').push(newNews);
         const imageExt = image.slice(11, 14);
-        const fileData = await firebase.storage().ref(`links/${link.key}.${imageExt}`).put(image);
-        const imageSrc = await firebase.storage().ref(`links/${link.key}.${imageExt}`).getDownloadURL();
+        const fileData = await firebase.storage().ref(`news/${news.key}.${imageExt}`).put(image);
+        const imageSrc = await firebase.storage().ref(`news/${news.key}.${imageExt}`).getDownloadURL();
 
-        await firebase.database().ref('links').child(link.key).update({
+        await firebase.database().ref('news').child(news.key).update({
           image: imageSrc,
         });
 
         commit('setLoading', false);
         commit('createLink', {
-          ...newLink,
-          id: link.key,
+          ...newNews,
+          id: news.key,
           image: imageSrc,
         });
       } catch (error) {
@@ -152,7 +152,7 @@ export default new Vuex.Store({
     },
   },
   modules: {
-    user,
+    user, news,
   },
   getters: {
     links(state) {

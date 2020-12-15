@@ -13,7 +13,7 @@
         <v-img
           max-height="350"
           max-width="650"
-          :src="image"
+          :src="news.image"
           class="mx-auto"
         ></v-img>
       </v-row>
@@ -41,12 +41,19 @@
 <script lang="ts">
 import
 
-{ Component, Vue } from 'vue-property-decorator';
+{ Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({
   components: {},
 })
 export default class News extends Vue {
+  @Prop(String)
+  readonly id!: string;
+
+  news(): void {
+    const { id } = this.id;
+    return this.$store.getters.newsById(id);
+  }
 }
 </script>
 

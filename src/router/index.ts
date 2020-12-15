@@ -7,48 +7,48 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home,
   },
   {
     path: '/about',
-    name: 'About',
+    name: 'about',
     component: () => import('../views/About.vue'),
   },
   {
     path: '/cert',
-    name: 'Cert',
+    name: 'cert',
     component: () => import('../views/Cert.vue'),
   },
   {
     path: '/products',
-    name: 'Products',
+    name: 'products',
     component: () => import('../views/Products.vue'),
   },
   {
     path: '/promotions',
-    name: 'Promotions',
+    name: 'promotions',
     component: () => import('../views/Promotions.vue'),
   },
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: () => import('../views/Login.vue'),
   },
   {
     path: '/add',
-    name: 'AddNews',
+    name: 'addNews',
     component: () => import('../views/AddNews.vue'),
   },
   {
     path: '/news/:id',
     props: true,
-    name: 'New',
+    name: 'news',
     component: () => import('../views/News.vue'),
   },
   {
     path: '/*',
-    name: 'E404',
+    name: 'e404',
     component: () => import('../views/E404.vue'),
   },
 ];

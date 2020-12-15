@@ -10,14 +10,6 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
-          <div>
-            {{ url }}
-            <v-text-field v-model="url"></v-text-field>
-          </div>
-        </v-col>
-      </v-row>
-      <v-row>
         <v-img
           max-height="350"
           max-width="650"
@@ -39,7 +31,7 @@
         <v-textarea auto-grow v-model="description"></v-textarea>
       </v-row>
       <v-row>
-        <v-btn class="warning mx-auto" @click="createLink"> Добавить </v-btn>
+        <v-btn class="warning mx-auto" @click="createNews"> Добавить </v-btn>
       </v-row>
     </v-container>
   </div>
@@ -57,28 +49,25 @@ class AddNewsClass {
 
   description: string;
 
-  id: string;
-
-  link: string;
-
   image: string;
 
   img: any;
 
+  id: string
+
   // eslint-disable-next-line max-len
-  constructor(title: string, description: string, id: string, link: string, image: string, img: any) {
+  constructor(title: string, description: string, image: string, img: any, id: string) {
     this.title = title;
-    this.link = link;
     this.description = description;
-    this.id = id;
     this.image = image;
     this.img = img;
+    this.id = id;
   }
 }
 
 @Component
 export default class AddList extends Vue {
-  private news = new AddNewsClass('', '', '', '', '', '');
+  private news = new AddNewsClass('', '', '', '', '');
 
   private title: string = this.news.title;
 
@@ -87,10 +76,6 @@ export default class AddList extends Vue {
   private image: string | ArrayBuffer | null = this.news.image;
 
   private img = 'null';
-
-  private url = this.news.link;
-
-  private id = this.news.id;
 
   private onFileChange(event: any): void {
     const file = event.name;
@@ -108,8 +93,7 @@ export default class AddList extends Vue {
     const newNews = {
       title: this.title,
       description: this.description,
-      image: this.image,
-      link: this.url,
+      image: 'https://media.proglib.io/wp-uploads/2018/07/1_qnI8K0Udjw4lciWDED4HGw.png',
       id: this.id,
     };
 
