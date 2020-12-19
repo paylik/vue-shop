@@ -1,11 +1,18 @@
 <template>
   <div>
     <v-container>
+      <v-form v-model="valid" ref="form" validation>
       <v-row>
         <v-col>
           <div class="text-h3">
             {{ title }}
-            <v-text-field v-model="title"></v-text-field>
+            <v-text-field
+              v-model="title"
+              name="title"
+              label="Добавить заглавие"
+              required
+              :rules="[(v) => !!v || 'Имя не определено']"
+            ></v-text-field>
           </div>
         </v-col>
       </v-row>
@@ -20,6 +27,8 @@
       <v-row>
         <v-file-input
           accept="image/*"
+          ref="fileInput"
+          type="file"
           label="File input"
           prepend-icon="mdi-camera"
           @change="onFileChange($event)"
@@ -28,11 +37,24 @@
       </v-row>
       <v-row class="subtitle 1">
         {{ description }}
-        <v-textarea auto-grow v-model="description"></v-textarea>
+        <v-textarea
+          auto-grow
+          v-model="description"
+          label="Добавить описание"
+          type="text"
+          multiline
+          counter="300"
+        ></v-textarea>
       </v-row>
       <v-row>
-        <v-btn class="warning mx-auto" @click="createNews"> Добавить </v-btn>
+        <v-btn
+          class="warning mx-auto"
+          @click="createNews"
+          :loading="loading"
+          :disabled="!valid || loading"
+        > Добавить </v-btn>
       </v-row>
+      </v-form>
     </v-container>
   </div>
 
@@ -77,6 +99,10 @@ export default class AddList extends Vue {
 
   private img = 'null';
 
+  private id: any;
+
+  private valid = false;
+
   private onFileChange(event: any): void {
     const file = event.name;
     if (file !== undefined) {
@@ -94,7 +120,7 @@ export default class AddList extends Vue {
       title: this.title,
       description: this.description,
       image: 'https://media.proglib.io/wp-uploads/2018/07/1_qnI8K0Udjw4lciWDED4HGw.png',
-      id: this.id,
+      // id: this.id,
     };
 
     this.$store.dispatch('createNews', newNews)
@@ -103,6 +129,14 @@ export default class AddList extends Vue {
       })
       // eslint-disable-next-line @typescript-eslint/no-empty-function
       .catch(() => {});
+  }
+
+  get loading(): boolean {
+    return this.$store.getters.loading;
+  }
+
+  private triggerUpload(): void {
+    this.$refs.fileInput.click();
   }
 }
 </script>

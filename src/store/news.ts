@@ -3,15 +3,15 @@ import Vuex from 'vuex';
 import firebase from 'firebase';
 
 export class News {
-  private title: string;
+  title: string;
 
-  private description: string;
+  description: string;
 
-  private image: string;
+  image: string;
 
   id: string;
 
-  constructor(title: string, description: string, image: string, id: string) {
+  constructor(title: string, description: string, image: string, id = '') {
     this.title = title;
     this.description = description;
     this.image = image;
@@ -33,17 +33,31 @@ export default {
       state.newsList.push(payload);
     },
     updateNews(state, { title, description, id }) {
-      const link = state.news.find((a) => a.id === id);
-      link.title = title;
-      link.description = description;
+      const news = state.news.find((a) => a.id === id);
+      news.title = title;
+      news.description = description;
     },
   },
   actions: {
-    createNews({ commit }, payload: News) {
-      // payload.id = Math.floor(Math.random() * 10000).toString();
-      // payload.id = 'Math.floor(Math.random() * 10000).toString()';
+    async createNews({ commit, getters }, payload: News) {
+      commit('clearError');
+      commit('setLoading', true);
 
       commit('createNews', payload);
+      try {
+        const newNews = new News(payload.title, payload.description, payload.image);
+        const fbValue = firebase.database().ref('news').push('newNews');
+
+        commit('setLoading', false);
+        commit('createNews', {
+          ...newNews,
+          id: fbValue.key,
+        });
+      } catch (error) {
+        commit('setError', error.message);
+        commit('setLoading', false);
+        throw error;
+      }
     },
   },
   modules: {},

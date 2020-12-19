@@ -51,8 +51,7 @@ export default class News extends Vue {
   readonly id!: string;
 
   news(): void {
-    const { id } = this.id;
-    return this.$store.getters.newsById(id);
+    return this.$store.getters.newsById(this.id);
   }
 }
 </script>

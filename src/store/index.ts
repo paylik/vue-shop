@@ -73,43 +73,44 @@ export default new Vuex.Store({
     clearError({ commit }) {
       commit('clearError');
     },
-    async createNews({ commit }, payload) {
-      commit('clearError');
-      commit('setLoading');
-
-      const { image } = payload;
-
-      try {
-        const newNews = new News(
-          payload.title,
-          payload.description,
-          payload.image,
-          payload.id,
-        );
-
-        console.log(image);
-
-        news = await firebase.database().ref('news').push(newNews);
-        const imageExt = image.slice(11, 14);
-        const fileData = await firebase.storage().ref(`news/${news.key}.${imageExt}`).put(image);
-        const imageSrc = await firebase.storage().ref(`news/${news.key}.${imageExt}`).getDownloadURL();
-
-        await firebase.database().ref('news').child(news.key).update({
-          image: imageSrc,
-        });
-
-        commit('setLoading', false);
-        commit('createLink', {
-          ...newNews,
-          id: news.key,
-          image: imageSrc,
-        });
-      } catch (error) {
-        commit('setError', error.message);
-        commit('setLoading', false);
-        throw error;
-      }
-    },
+    // async createNews({ commit }, payload) {
+    //   commit('clearError');
+    //   commit('setLoading');
+    //
+    //   const { image } = payload;
+    //
+    //   try {
+    //     const newNews = new News(
+    //       payload.title,
+    //       payload.description,
+    //       payload.image,
+    //       '',
+    //     );
+    //
+    //     const newsBD = await firebase.database().ref('news').push(newNews);
+    //     console.log('console.log newsBD ', newsBD);
+    //     const imageExt = image.slice(11, 14);
+    //     const fileData = await firebase.storage()
+    //     .ref(`news/${newsBD.key}.${imageExt}`).put(image);
+    //     const imageSrc = await firebase.storage()
+    //     .ref(`news/${newsBD.key}.${imageExt}`).getDownloadURL();
+    //
+    //     await firebase.database().ref('news').child(newsBD.key).update({
+    //       image: imageSrc,
+    //     });
+    //
+    //     commit('setLoading', false);
+    //     commit('createLink', {
+    //       ...newNews,
+    //       id: newsBD.key,
+    //       image: imageSrc,
+    //     });
+    //   } catch (error) {
+    //     commit('setError', error.message);
+    //     commit('setLoading', false);
+    //     throw error;
+    //   }
+    // },
     async fetchLinks({ commit }) {
       commit('clearError');
       commit('setLoading', true);
