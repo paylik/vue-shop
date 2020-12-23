@@ -15,18 +15,13 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
-          {{  newsList }}
-        </v-col>
-      </v-row>
-      <v-row>
         <v-col v-for="news in newsList" :key="news.title">
           <v-card
             class="mx-auto"
             max-width="344"
           >
             <v-img
-              src="news.image"
+              :src="news.image"
               height="200px"
             ></v-img>
 
@@ -34,16 +29,13 @@
               {{ news.title }}
             </v-card-title>
 
-            <v-card-subtitle>
-              1,000 miles of wonder
-            </v-card-subtitle>
-
             <v-card-actions>
               <v-btn
                 color="orange lighten-2"
                 text
+                :to="'/news/' + news.id"
               >
-                Explore
+                Подробнее
               </v-btn>
 
               <v-spacer></v-spacer>

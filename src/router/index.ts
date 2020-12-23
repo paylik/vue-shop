@@ -6,14 +6,14 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/',
+    path: '',
     name: 'home',
     component: Home,
   },
   {
     path: '/about',
     name: 'about',
-    component: () => import('../views/About.vue'),
+    component: () => import('@/views/About.vue'),
   },
   {
     path: '/cert',
@@ -44,7 +44,7 @@ const routes: Array<RouteConfig> = [
     path: '/news/:id',
     props: true,
     name: 'news',
-    component: () => import('../views/News.vue'),
+    component: () => import('@/views/News.vue'),
   },
   {
     path: '/*',

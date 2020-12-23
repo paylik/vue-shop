@@ -31,7 +31,7 @@
           type="file"
           label="File input"
           prepend-icon="mdi-camera"
-          @change="onFileChange($event)"
+          @change="onFileChange"
         ></v-file-input>
         <!--        <input type="file" accept="image/*" class="mx-auto py-2">-->
       </v-row>
@@ -44,6 +44,8 @@
           type="text"
           multiline
           counter="300"
+          required
+          :rules="[(v) => !!v || 'Описание не задано']"
         ></v-textarea>
       </v-row>
       <v-row>
@@ -97,20 +99,19 @@ export default class AddList extends Vue {
 
   private image: string | ArrayBuffer | null = this.news.image;
 
-  private img = 'null';
+  private img: any = 'null';
 
   private id: any;
 
   private valid = false;
 
   private onFileChange(event: any): void {
-    const file = event.name;
-    if (file !== undefined) {
+    if (event !== undefined) {
       const reader = new FileReader();
       reader.readAsDataURL(event);
       reader.onload = () => {
         this.image = reader.result;
-        this.img = file;
+        this.img = event;
       };
     }
   }
@@ -119,7 +120,7 @@ export default class AddList extends Vue {
     const newNews = {
       title: this.title,
       description: this.description,
-      image: 'https://media.proglib.io/wp-uploads/2018/07/1_qnI8K0Udjw4lciWDED4HGw.png',
+      image: this.img,
       // id: this.id,
     };
 

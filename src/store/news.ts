@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 export class News {
   title: string;
 
   description: string;
 
-  image: string;
+  image: any;
 
   id: string;
 
@@ -27,7 +27,7 @@ export default {
   },
   mutations: {
     loadNews(state, payload) {
-      state.news.push(...payload);
+      state.newsList.push(...payload);
     },
     createNews(state, payload) {
       state.newsList.push(payload);
@@ -39,20 +39,57 @@ export default {
     },
   },
   actions: {
-    async createNews({ commit, getters }, payload: News) {
+    async createNews({ commit }, payload: News) {
       commit('clearError');
       commit('setLoading', true);
 
-      commit('createNews', payload);
+      const { image } = payload;
+
       try {
-        const newNews = new News(payload.title, payload.description, payload.image);
-        const fbValue = firebase.database().ref('news').push('newNews');
+        const newNews = new News(payload.title, payload.description, '');
+        const fbValue = firebase.database().ref('news').push(newNews);
+        const imageExt = image.name.slice(image.name.length - 3, image.name.length);
+
+        const fileData = await firebase.storage()
+          .ref(`news/${fbValue.key}.${imageExt}`).put(image);
+        const imageSrc = await firebase.storage()
+          .ref(`news/${fbValue.key}.${imageExt}`).getDownloadURL();
+
+        await firebase.database().ref('news').child(fbValue.key).update({
+          image: imageSrc,
+        });
 
         commit('setLoading', false);
         commit('createNews', {
           ...newNews,
           id: fbValue.key,
+          image: imageSrc,
         });
+      } catch (error) {
+        commit('setError', error.message);
+        commit('setLoading', false);
+        throw error;
+      }
+    },
+    async fetchNews({ commit }) {
+      commit('clearError');
+      commit('setLoading', true);
+
+      const resultNews: Array<News> = [];
+
+      try {
+        const fbVal = await firebase.database().ref('news').once('value');
+        const bdNews = fbVal.val();
+
+        Object.keys(bdNews).forEach((key) => {
+          const news = bdNews[key];
+          resultNews.push(
+            new News(news.title, news.description, news.image, key),
+          );
+        });
+
+        commit('loadNews', resultNews);
+        commit('setLoading', false);
       } catch (error) {
         commit('setError', error.message);
         commit('setLoading', false);
@@ -64,6 +101,9 @@ export default {
   getters: {
     newsList(state) {
       return state.newsList;
+    },
+    newsById(state) {
+      return (newsId) => state.newsList.find((news) => news.id === newsId);
     },
   },
 };

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import user from './user';
 import news, { News } from './news';
 
@@ -34,7 +34,7 @@ export default new Vuex.Store({
     links: links = [
       {
         title: 'Домой',
-        link: '/',
+        link: '',
         id: 0,
       },
     ],
@@ -115,7 +115,7 @@ export default new Vuex.Store({
       commit('clearError');
       commit('setLoading', true);
 
-      const resultLinks: Array<any> = [];
+      const resultLinks: Array<Link> = [];
 
       try {
         const val = await firebase.database().ref('links').once('value');

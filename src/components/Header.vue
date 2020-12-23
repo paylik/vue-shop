@@ -31,7 +31,7 @@
       text
       rounded
       class="my-2 hidden-sm-and-down"
-      :to="link.link"
+      :to="'/' + link.link"
     >
       {{ link.title }}
     </v-btn>
