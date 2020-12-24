@@ -13,8 +13,8 @@
         color="white"
         text
         rounded
-        class="my-2"
-        :to="link.link"
+        class="my-2 hidden-sm-and-down"
+        :to="'/' + link.link"
       >
         {{ link.title }}
       </v-btn>

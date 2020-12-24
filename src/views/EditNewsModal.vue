@@ -1,27 +1,114 @@
 <template>
   <v-dialog
-    v-model="modal"
+    v-model="dialog"
     persistent
-    max-width="500px"
+    max-width="290"
   >
-    <v-btn
-      color="primary"
-      dark
-      slot="activator"
-      class="mx-auto"
-    >
-      Редактировать
-    </v-btn>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+        color="primary"
+        dark
+        v-bind="attrs"
+        v-on="on"
+      >
+        Редактировать
+      </v-btn>
+    </template>
+    <v-card v-model="valid" validation>
+      <v-card-title class="headline">
+        <v-text-field
+          v-model="editedTitle"
+          name="title"
+          label="Заголовок"
+          type="text"
+          :rules="[(v) => !!v || 'Заглавие не задано']"
+        ></v-text-field>
+      </v-card-title>
+      <v-card-text><v-img
+        max-height="150"
+        max-width="350"
+        :src="editedImage"
+        class="mx-auto"
+      ></v-img>
+        <v-row>
+          <v-file-input
+            accept="image/*"
+            label="File input"
+            prepend-icon="mdi-camera"
+          ></v-file-input>
+        </v-row>
+        <v-row>
+          <v-textarea
+            auto-grow
+            v-model="editedDescription"
+            name="description"
+            label="Описание"
+            type="text"
+            :rules="[(v) => !!v || 'Заглавие не задано']"
+            multiline
+          ></v-textarea>
+        </v-row>
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="green darken-1"
+          text
+          @click="onSave"
+          :disabled="!valid"
+        >
+          Сохранить
+        </v-btn>
+        <v-btn
+          color="green darken-1"
+          text
+          @click="onCancel"
+        >
+          Отменить
+        </v-btn>
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts">
 import
 
-{ Vue } from 'vue-property-decorator';
+{ Vue, Component, Prop } from 'vue-property-decorator';
+import { News } from '@/store/news';
 
+@Component
 export default class EditNewsModal extends Vue {
-  private modal = false;
+  @Prop(News)
+  private news: News;
+
+  private valid = false;
+
+  private dialog = false;
+
+  private editedTitle = this.news.title;
+
+  private editedDescription = this.news.description;
+
+  private editedImage = this.news.image;
+
+  private onSave(): void {
+    this.$store.dispatch('updateNews', {
+      title: this.editedTitle,
+      description: this.editedDescription,
+      id: this.news.id,
+    });
+
+    this.dialog = false;
+  }
+
+  private onCancel(): void {
+    this.dialog = false;
+    this.editedDescription = this.news.description;
+    this.editedImage = this.news.image;
+    this.editedTitle = this.news.title;
+  }
 }
 
 </script>

@@ -61,11 +61,11 @@ import firebase from 'firebase';
   },
 })
 export default class App extends Vue {
-  $props = ['id']
+  $props = ['id'];
 
-  private drawer = false
+  private drawer = false;
 
-  private snackbar = true
+  private snackbar = true;
 
   get error(): string {
     return this.$store.getters.error;

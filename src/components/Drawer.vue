@@ -7,7 +7,7 @@
     <v-list-item
       v-for="(link, i) in links"
       :key="i"
-      :to="link.link"
+      :to="'/' + link.link"
     >
 <!--      <v-list-item-icon>-->
 <!--        <v-icon v-text="link.icon"></v-icon>-->

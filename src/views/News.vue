@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <v-container v-if="!loading">
       <v-row>
         <v-col>
           <div class="text-h3">
@@ -33,11 +33,18 @@
       </v-row>
       <v-row><v-spacer></v-spacer>
         <v-col>
-        <app-edit-news-modal></app-edit-news-modal>
-        <v-btn v-if="isUserLoggedIn" class="warning mx-auto" @click="onUpdate"> Удалить </v-btn>
+        <app-edit-news-modal :news="news"></app-edit-news-modal>
+        <v-btn v-if="isUserLoggedIn" class="warning mx-auto" @click="onDelite"> Удалить </v-btn>
         </v-col>
       </v-row>
     </v-container>
+    <v-progress-circular
+      :size="100"
+      color="primary"
+      indeterminate
+      v-else
+      class="mt-10"
+    ></v-progress-circular>
   </div>
 </template>
 
@@ -62,6 +69,14 @@ export default class News extends Vue {
 
   get isUserLoggedIn(): boolean {
     return this.$store.getters.isUserLoggedIn;
+  }
+
+  get loading(): boolean {
+    return this.$store.getters.loading;
+  }
+
+  private onDelite(): void {
+    console.log(this.news);
   }
 }
 </script>
