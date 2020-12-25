@@ -68,7 +68,7 @@ import
 
 { Component, Vue } from 'vue-property-decorator';
 
-class AddNewsClass {
+export class AddNewsClass {
   title: string;
 
   description: string;
@@ -90,7 +90,7 @@ class AddNewsClass {
 }
 
 @Component
-export default class AddList extends Vue {
+export default class AddNews extends Vue {
   private news = new AddNewsClass('', '', '', '', '');
 
   private title: string = this.news.title;

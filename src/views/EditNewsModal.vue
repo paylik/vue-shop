@@ -1,8 +1,9 @@
+/*eslint linebreak-style: ["error", "windows"]*/
 <template>
   <v-dialog
     v-model="dialog"
     persistent
-    max-width="290"
+    max-width="590"
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
@@ -35,6 +36,7 @@
             accept="image/*"
             label="File input"
             prepend-icon="mdi-camera"
+            @change="onFileChange($event)"
           ></v-file-input>
         </v-row>
         <v-row>
@@ -76,12 +78,12 @@
 import
 
 { Vue, Component, Prop } from 'vue-property-decorator';
-import { News } from '@/store/news';
+import { AddNewsClass } from '@/views/AddNews.vue';
 
 @Component
 export default class EditNewsModal extends Vue {
-  @Prop(News)
-  private news: News;
+  @Prop(AddNewsClass)
+  private news: AddNewsClass;
 
   private valid = false;
 
@@ -93,10 +95,25 @@ export default class EditNewsModal extends Vue {
 
   private editedImage = this.news.image;
 
+  private editFile = this.news.img;
+
+  private onFileChange(event: any): void {
+    const file = event.name;
+    if (file !== undefined) {
+      const reader = new FileReader();
+      reader.readAsDataURL(event);
+      reader.onload = () => {
+        this.editFile = event;
+        this.editedImage = reader.result;
+      };
+    }
+  }
+
   private onSave(): void {
     this.$store.dispatch('updateNews', {
       title: this.editedTitle,
       description: this.editedDescription,
+      image: this.editedImage,
       id: this.news.id,
     });
 

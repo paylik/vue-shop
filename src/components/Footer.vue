@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "windows"] */
 <template>
   <v-footer app
             color="primary lighten-1"

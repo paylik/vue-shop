@@ -33,7 +33,7 @@ export default {
       state.newsList.push(payload);
     },
     updateNews(state, { title, description, id }) {
-      const news = state.news.find((a) => a.id === id);
+      const news = state.newsList.find((a) => a.id === id);
       news.title = title;
       news.description = description;
     },
@@ -89,6 +89,30 @@ export default {
         });
 
         commit('loadNews', resultNews);
+        commit('setLoading', false);
+      } catch (error) {
+        commit('setError', error.message);
+        commit('setLoading', false);
+        throw error;
+      }
+    },
+    async updateNews({ commit }, {
+      title,
+      description,
+      image,
+      id,
+    }) {
+      commit('clearError');
+      commit('setLoading', true);
+
+      try {
+        console.log(image);
+        await firebase.database().ref('news').child(id).update({
+          title, description,
+        });
+        commit('updateNews', {
+          title, description, id,
+        });
         commit('setLoading', false);
       } catch (error) {
         commit('setError', error.message);

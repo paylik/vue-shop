@@ -1,3 +1,4 @@
+/*eslint linebreak-style: ["error", "windows"]*/
 <template>
   <div>
     <v-container v-if="!loading">
@@ -31,10 +32,10 @@
 <!--        <v-textarea auto-grow v-if="isUserLoggedIn" v-model="description"></v-textarea>-->
         </v-col>
       </v-row>
-      <v-row><v-spacer></v-spacer>
+      <v-row v-if="isUserLoggedIn"><v-spacer></v-spacer>
         <v-col>
         <app-edit-news-modal :news="news"></app-edit-news-modal>
-        <v-btn v-if="isUserLoggedIn" class="warning mx-auto" @click="onDelite"> Удалить </v-btn>
+        <v-btn class="warning mx-auto" @click="onDelite"> Удалить </v-btn>
         </v-col>
       </v-row>
     </v-container>

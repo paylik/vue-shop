@@ -42,7 +42,6 @@
 <script lang="ts">
 // eslint-disable-next-line max-classes-per-file
 import
-
 { Component, Vue } from 'vue-property-decorator';
 
 class Link {
@@ -110,9 +109,6 @@ export default class Content extends Vue {
       reader.onload = () => {
         this.image = reader.result;
         this.img = file;
-        console.log(this.nameId);
-        console.log(this.nameIdNew);
-        console.log(this.linksOb);
       };
     }
   }

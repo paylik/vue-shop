@@ -1,3 +1,4 @@
+/* eslint linebreak-style: ["error", "windows"] */
 <template>
 <v-list rounded>
   <v-subheader>КАТЕГОРИИ</v-subheader>

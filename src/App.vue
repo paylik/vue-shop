@@ -96,6 +96,7 @@ export default class App extends Vue {
       appId: '1:687339852851:web:2f372b59a200794761ff46',
       measurementId: 'G-MXME18L0K3',
     });
+
     firebase.analytics();
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
