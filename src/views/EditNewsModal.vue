@@ -78,12 +78,12 @@
 import
 
 { Vue, Component, Prop } from 'vue-property-decorator';
-import { AddNewsClass } from '@/views/AddNews.vue';
+import { NewsClass } from '../store/news';
 
 @Component
 export default class EditNewsModal extends Vue {
-  @Prop(AddNewsClass)
-  private news: AddNewsClass;
+  @Prop(NewsClass)
+  private news: NewsClass;
 
   private valid = false;
 
@@ -95,7 +95,7 @@ export default class EditNewsModal extends Vue {
 
   private editedImage = this.news.image;
 
-  private editFile = this.news.img;
+  private editFile = this.news.image;
 
   private onFileChange(event: any): void {
     const file = event.name;
@@ -114,6 +114,7 @@ export default class EditNewsModal extends Vue {
       title: this.editedTitle,
       description: this.editedDescription,
       image: this.editedImage,
+      img: this.editFile,
       id: this.news.id,
     });
 

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import firebase from 'firebase/app';
 import user from './user';
-import news, { News } from './news';
+import news from './news';
 
 Vue.use(Vuex);
 
@@ -57,11 +57,11 @@ export default new Vuex.Store({
     createLink(state, payload) {
       state.links.push(payload);
     },
-    // updateLink(state, { title, description, id }) {
-    //   const link = state.links.find((a) => a.id === id);
-    //   link.title = title;
-    //   link.description = description;
-    // },
+    updateLink(state, { title, description, id }) {
+      const link = state.links.find((a) => a.id === id);
+      link.title = title;
+      link.description = description;
+    },
   },
   actions: {
     setLoading({ commit }, payload) {

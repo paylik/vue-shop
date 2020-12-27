@@ -2,16 +2,16 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import firebase from 'firebase/app';
 
-export class News {
+export class NewsClass {
   title: string;
 
   description: string;
 
-  image: any;
+  image: File;
 
   id: string;
 
-  constructor(title: string, description: string, image: string, id = '') {
+  constructor(title: string, description: string, image: File, id = '') {
     this.title = title;
     this.description = description;
     this.image = image;
@@ -32,21 +32,27 @@ export default {
     createNews(state, payload) {
       state.newsList.push(payload);
     },
-    updateNews(state, { title, description, id }) {
+    updateNews(state, {
+      title,
+      description,
+      id,
+      image,
+    }) {
       const news = state.newsList.find((a) => a.id === id);
       news.title = title;
       news.description = description;
+      news.image = image;
     },
   },
   actions: {
-    async createNews({ commit }, payload: News) {
+    async createNews({ commit }, payload: NewsClass) {
       commit('clearError');
       commit('setLoading', true);
 
       const { image } = payload;
 
       try {
-        const newNews = new News(payload.title, payload.description, '');
+        const newNews = new NewsClass(payload.title, payload.description, '');
         const fbValue = firebase.database().ref('news').push(newNews);
         const imageExt = image.name.slice(image.name.length - 3, image.name.length);
 
@@ -55,9 +61,11 @@ export default {
         const imageSrc = await firebase.storage()
           .ref(`news/${fbValue.key}.${imageExt}`).getDownloadURL();
 
-        await firebase.database().ref('news').child(fbValue.key).update({
-          image: imageSrc,
-        });
+        if (fbValue.key != null) {
+          await firebase.database().ref('news').child(fbValue.key).update({
+            image: imageSrc,
+          });
+        }
 
         commit('setLoading', false);
         commit('createNews', {
@@ -75,7 +83,7 @@ export default {
       commit('clearError');
       commit('setLoading', true);
 
-      const resultNews: Array<News> = [];
+      const resultNews: Array<NewsClass> = [];
 
       try {
         const fbVal = await firebase.database().ref('news').once('value');
@@ -84,7 +92,7 @@ export default {
         Object.keys(bdNews).forEach((key) => {
           const news = bdNews[key];
           resultNews.push(
-            new News(news.title, news.description, news.image, key),
+            new NewsClass(news.title, news.description, news.image, key),
           );
         });
 
@@ -101,18 +109,29 @@ export default {
       description,
       image,
       id,
-    }) {
+    }: NewsClass) {
       commit('clearError');
       commit('setLoading', true);
 
       try {
-        console.log(image);
-        await firebase.database().ref('news').child(id).update({
-          title, description,
-        });
-        commit('updateNews', {
-          title, description, id,
-        });
+        if (image.name) {
+          const imageExt = image.name.slice(image.name.length - 3, image.name.length);
+          await firebase.storage().ref(`news/${id}.${imageExt}`).put(image);
+          const imageSrc = await firebase.storage().ref(`news/${id}.${imageExt}`).getDownloadURL();
+          await firebase.database().ref('news').child(id).update({
+            title, description, image: imageSrc,
+          });
+          commit('updateNews', {
+            title, description, id, image: imageSrc,
+          });
+        } else {
+          await firebase.database().ref('news').child(id).update({
+            title, description,
+          });
+          commit('updateNews', {
+            title, description, id, image,
+          });
+        }
         commit('setLoading', false);
       } catch (error) {
         commit('setError', error.message);

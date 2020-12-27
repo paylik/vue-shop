@@ -69,6 +69,7 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
+import { NewsClass } from '@/store/news';
 
 @Component
 export default class Home extends Vue {
@@ -89,6 +90,6 @@ export default class Home extends Vue {
 
   private show = false
 
-  private newsList: Array<object> = this.$store.getters.newsList
+  private newsList: Array<NewsClass> = this.$store.getters.newsList
 }
 </script>

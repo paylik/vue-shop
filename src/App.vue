@@ -47,7 +47,7 @@
 <script lang="ts">
 import
 
-{ Component, Vue } from 'vue-property-decorator';
+{ Component, Prop, Vue } from 'vue-property-decorator';
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 import Drawer from '@/components/Drawer.vue';
@@ -61,7 +61,8 @@ import firebase from 'firebase';
   },
 })
 export default class App extends Vue {
-  $props = ['id'];
+  @Prop(String)
+  readonly id!: string;
 
   private drawer = false;
 

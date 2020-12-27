@@ -20,20 +20,18 @@
         <v-img
           max-height="350"
           max-width="650"
-          :src="image"
+          :src="newImage"
           class="mx-auto"
         ></v-img>
       </v-row>
       <v-row>
         <v-file-input
           accept="image/*"
-          ref="fileInput"
           type="file"
           label="File input"
           prepend-icon="mdi-camera"
           @change="onFileChange"
         ></v-file-input>
-        <!--        <input type="file" accept="image/*" class="mx-auto py-2">-->
       </v-row>
       <v-row class="subtitle 1">
         {{ description }}
@@ -63,45 +61,26 @@
 </template>
 
 <script lang="ts">
-// eslint-disable-next-line max-classes-per-file
+
 import
 
 { Component, Vue } from 'vue-property-decorator';
 
-export class AddNewsClass {
-  title: string;
-
-  description: string;
-
-  image: string;
-
-  img: any;
-
-  id: string
-
-  // eslint-disable-next-line max-len
-  constructor(title: string, description: string, image: string, img: any, id: string) {
-    this.title = title;
-    this.description = description;
-    this.image = image;
-    this.img = img;
-    this.id = id;
-  }
-}
+import { NewsClass } from '../store/news';
 
 @Component
 export default class AddNews extends Vue {
-  private news = new AddNewsClass('', '', '', '', '');
+  private news = new NewsClass('', '', '', '');
 
   private title: string = this.news.title;
 
   private description: string = this.news.description;
 
-  private image: string | ArrayBuffer | null = this.news.image;
+  private image: File = this.news.image;
 
-  private img: any = 'null';
+  private newImage: string | ArrayBuffer | null = 'null';
 
-  private id: any;
+  private id: string = this.news.id;
 
   private valid = false;
 
@@ -110,8 +89,8 @@ export default class AddNews extends Vue {
       const reader = new FileReader();
       reader.readAsDataURL(event);
       reader.onload = () => {
-        this.image = reader.result;
-        this.img = event;
+        this.image = event;
+        this.newImage = reader.result;
       };
     }
   }
@@ -120,8 +99,7 @@ export default class AddNews extends Vue {
     const newNews = {
       title: this.title,
       description: this.description,
-      image: this.img,
-      // id: this.id,
+      image: this.image,
     };
 
     this.$store.dispatch('createNews', newNews)
@@ -134,10 +112,6 @@ export default class AddNews extends Vue {
 
   get loading(): boolean {
     return this.$store.getters.loading;
-  }
-
-  private triggerUpload(): void {
-    this.$refs.fileInput.click();
   }
 }
 </script>
