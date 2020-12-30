@@ -25,7 +25,7 @@
       <v-row v-if="isUserLoggedIn"><v-spacer></v-spacer>
         <v-col>
         <app-edit-news-modal :news="news"></app-edit-news-modal>
-        <v-btn class="warning mx-auto" @click="onDelite"> Удалить </v-btn>
+        <v-btn class="warning mx-auto" @click="onDelete"> Удалить </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -67,12 +67,25 @@ export default class News extends Vue {
     return this.$store.getters.loading;
   }
 
-  private onDelite(): void {
-    console.log(this.news.title);
+  private onDelete(): void {
+    const { id } = this.news;
+
+    this.$store.dispatch('deleteNews', id)
+      .then(() => { this.$router.push('/'); })
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      .catch(() => {});
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+  .news-link {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    background: rgba(0, 0, 0, .5);
+    transform: translate(-50%, 0);
+    padding: 5px 15px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;}
 </style>

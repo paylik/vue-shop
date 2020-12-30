@@ -134,16 +134,34 @@ export default new Vuex.Store({
         throw error;
       }
     },
-    async updateLink({ commit }, { title, description, id }) {
+    async updateLink({ commit }, {
+      title,
+      description,
+      id,
+      image,
+    }) {
       commit('clearError');
       commit('setLoading', true);
+      console.log(image);
       try {
-        await firebase.database().ref('links').child(id).update({
-          title, description,
-        });
-        commit('updateLink', {
-          title, description, id,
-        });
+        if (image.name) {
+          const imageExt = image.name.slice(image.name.length - 3, image.name.length);
+          await firebase.storage().ref(`links/${id}.${imageExt}`).put(image);
+          const imageSrc = await firebase.storage().ref(`links/${id}.${imageExt}`).getDownloadURL();
+          await firebase.database().ref('links').child(id).update({
+            title, description, image: imageSrc,
+          });
+          commit('updateLink', {
+            title, description, id, image: imageSrc,
+          });
+        } else {
+          await firebase.database().ref('links').child(id).update({
+            title, description,
+          });
+          commit('updateLink', {
+            title, description, id,
+          });
+        }
         commit('setLoading', false);
       } catch (error) {
         commit('setError', error.message);

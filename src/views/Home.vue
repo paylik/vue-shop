@@ -5,12 +5,16 @@
         <v-col>
           <v-carousel cycle>
             <v-carousel-item
-              v-for="(item,i) in items"
-              :key="i"
-              :src="item.src"
+              v-for="news in newsList"
+              :key="news.id"
+              :src="news.image"
               reverse-transition="scroll-x-reverse-transition"
               transition="scroll-x-transition"
-            ></v-carousel-item>
+            >
+              <div class="news-link">
+                <v-btn class="error" :to="'/news/' + news.id">{{ news.title }}</v-btn>
+              </div>
+            </v-carousel-item>
           </v-carousel>
         </v-col>
       </v-row>
@@ -53,9 +57,7 @@
                 <v-divider></v-divider>
 
                 <v-card-text>
-                  {{
-                    news.description
-                  }}
+                  {{ news.description.slice(0, 30) }}...
                 </v-card-text>
               </div>
             </v-expand-transition>
@@ -73,7 +75,7 @@ import { NewsClass } from '@/store/news';
 
 @Component
 export default class Home extends Vue {
-  private items: Array<object> = [
+  private items: Array<any> = [
     {
       src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
     },

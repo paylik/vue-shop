@@ -51,6 +51,11 @@ const routes: Array<RouteConfig> = [
     name: 'e404',
     component: () => import('../views/E404.vue'),
   },
+  {
+    path: '/news/*',
+    name: 'e404',
+    component: () => import('../views/E404.vue'),
+  },
 ];
 
 const router = new VueRouter({

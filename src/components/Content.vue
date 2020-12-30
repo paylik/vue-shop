@@ -1,3 +1,4 @@
+/*eslint linebreak-style: ["error", "windows"]*/
 <template>
   <div>
     <v-container>
@@ -108,7 +109,7 @@ export default class Content extends Vue {
       reader.readAsDataURL(event);
       reader.onload = () => {
         this.image = reader.result;
-        this.img = file;
+        this.img = event;
       };
     }
   }
@@ -119,6 +120,7 @@ export default class Content extends Vue {
         title: this.title,
         description: this.description,
         id: this.link.id,
+        image: this.img,
       });
     }
   }

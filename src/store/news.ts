@@ -29,6 +29,9 @@ export default {
     loadNews(state, payload) {
       state.newsList.push(...payload);
     },
+    updateNewsList(state, id: string) {
+      state.newsList = state.newsList.filter((i) => i.id !== id);
+    },
     createNews(state, payload) {
       state.newsList.push(payload);
     },
@@ -132,6 +135,26 @@ export default {
             title, description, id, image,
           });
         }
+        commit('setLoading', false);
+      } catch (error) {
+        commit('setError', error.message);
+        commit('setLoading', false);
+        throw error;
+      }
+    },
+    async deleteNews({ commit }, id: string) {
+      commit('clearError');
+      commit('setLoading', true);
+
+      try {
+        const value = await firebase.database().ref(`news/${id}`).once('value');
+        const ref = value.val().image;
+        const fullName = firebase.storage().refFromURL(`${ref}`).name;
+        console.log(fullName);
+        const file = firebase.storage().ref('news').child(fullName);
+        await file.delete();
+        await firebase.database().ref('news').child(id).remove();
+        commit('updateNewsList', id);
         commit('setLoading', false);
       } catch (error) {
         commit('setError', error.message);
