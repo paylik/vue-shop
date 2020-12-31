@@ -1,4 +1,3 @@
-/*eslint linebreak-style: ["error", "windows"]*/
 <template>
   <v-dialog
     v-model="dialog"
