@@ -1,4 +1,3 @@
-/*eslint linebreak-style: ["error", "windows"]*/
 <template>
   <v-app>
     <v-navigation-drawer

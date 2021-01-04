@@ -3,8 +3,8 @@
   <v-row justify="center">
     <v-expansion-panels popout>
       <v-expansion-panel
-        v-for="expansion in expansions"
-        :key="expansion.icon"
+        v-for="(expansion, index) in expansions"
+        :key="index"
       >
         <v-expansion-panel-header>
           <h3>

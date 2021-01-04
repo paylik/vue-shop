@@ -1,4 +1,3 @@
-/*eslint linebreak-style: ["error", "windows"]*/
 <template>
   <div>
     <v-container v-if="news">
@@ -29,13 +28,9 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-progress-circular
-      :size="100"
-      color="primary"
-      indeterminate
-      v-else
-      class="mt-10"
-    ></v-progress-circular>
+    <v-container v-else>
+      <app-e404></app-e404>
+    </v-container>
   </div>
 </template>
 
@@ -45,10 +40,12 @@ import
 { Component, Vue, Prop } from 'vue-property-decorator';
 import { NewsClass } from '@/store/news';
 import EditNewsModal from './EditNewsModal.vue';
+import E404 from './E404.vue';
 
 @Component({
   components: {
     appEditNewsModal: EditNewsModal,
+    appE404: E404,
   },
 })
 export default class News extends Vue {
