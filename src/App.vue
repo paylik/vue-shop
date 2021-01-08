@@ -11,6 +11,10 @@
       @toggleDrawer="drawer = !drawer"
     ></Header>
     <v-main app>
+      <transition enter-active-class="animate__animated animate__fadeInRight"
+                  leave-active-class="animate__animated animate__fadeOutLeft"
+                  mode="out-in"
+      >
       <router-view v-if="!loading"></router-view>
       <v-progress-circular
         :size="100"
@@ -19,6 +23,7 @@
         v-else
         class="mt-10"
       ></v-progress-circular>
+      </transition>
     </v-main>
     <v-snackbar
       v-model="snackbar"
