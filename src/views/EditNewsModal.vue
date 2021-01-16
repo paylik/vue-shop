@@ -81,8 +81,7 @@ import { NewsClass } from '../store/news';
 
 @Component
 export default class EditNewsModal extends Vue {
-  @Prop(NewsClass)
-  private news: NewsClass;
+  @Prop(NewsClass) readonly news!: NewsClass;
 
   private valid = false;
 

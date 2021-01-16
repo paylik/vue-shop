@@ -71,15 +71,13 @@ import { NewsClass } from '../store/news';
 
 @Component
 export default class AddNews extends Vue {
-  private news = new NewsClass('', '', '', '');
+  private news = new NewsClass('', '', null, '');
 
   private title: string = this.news.title;
 
   private description: string = this.news.description;
 
-  private image: File = this.news.image;
-
-  private newImage: string | ArrayBuffer | null = 'null';
+  private image: File | null = this.news.image;
 
   private id: string = this.news.id;
 

@@ -43,7 +43,8 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "vue-yandex-maps": "^0.10.9"
   },
   "description": "## Project setup ``` npm install ```",
   "main": ".eslintrc.js",

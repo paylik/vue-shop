@@ -94,7 +94,7 @@ export default class Content extends Vue {
 
   private description: string = this.link.description;
 
-  private image: string | ArrayBuffer | null = this.link.image;
+  private image: File | null = this.link.image;
 
   private img = 'null';
 

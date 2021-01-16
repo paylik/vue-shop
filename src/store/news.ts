@@ -7,11 +7,11 @@ export class NewsClass {
 
   description: string;
 
-  image: File;
+  image: File | null;
 
   id: string;
 
-  constructor(title: string, description: string, image: File, id = '') {
+  constructor(title: string, description: string, image: File | null, id = '') {
     this.title = title;
     this.description = description;
     this.image = image;
@@ -26,41 +26,41 @@ export default {
     newsList: [],
   },
   mutations: {
-    loadNews(state, payload) {
+    loadNews(state: Storage, payload: any) {
       state.newsList.push(...payload);
     },
-    updateNewsList(state, id: string) {
-      state.newsList = state.newsList.filter((i) => i.id !== id);
+    updateNewsList(state: Storage, id: string) {
+      state.newsList = state.newsList.filter((i: NewsClass) => i.id !== id);
     },
-    createNews(state, payload) {
+    createNews(state: Storage, payload: NewsClass) {
       state.newsList.push(payload);
     },
-    updateNews(state, {
+    updateNews(state: Storage, {
       title,
       description,
       id,
       image,
-    }) {
-      const news = state.newsList.find((a) => a.id === id);
+    }: NewsClass) {
+      const news = state.newsList.find((a: NewsClass) => a.id === id);
       news.title = title;
       news.description = description;
       news.image = image;
     },
   },
   actions: {
-    async createNews({ commit }, payload: NewsClass) {
+    async createNews({ commit }: { commit: Function }, payload: NewsClass) {
       commit('clearError');
       commit('setLoading', true);
 
       const { image } = payload;
 
       try {
-        const newNews = new NewsClass(payload.title, payload.description, '');
+        const newNews = new NewsClass(payload.title, payload.description, null);
         const fbValue = firebase.database().ref('news').push(newNews);
-        const imageExt = image.name.slice(image.name.length - 3, image.name.length);
+        const imageExt = image!.name.slice(image!.name.length - 3, image!.name.length);
 
         const fileData = await firebase.storage()
-          .ref(`news/${fbValue.key}.${imageExt}`).put(image);
+          .ref(`news/${fbValue.key}.${imageExt}`).put(image!);
         const imageSrc = await firebase.storage()
           .ref(`news/${fbValue.key}.${imageExt}`).getDownloadURL();
 
@@ -82,7 +82,7 @@ export default {
         throw error;
       }
     },
-    async fetchNews({ commit }) {
+    async fetchNews({ commit }: { commit: Function }) {
       commit('clearError');
       commit('setLoading', true);
 
@@ -107,7 +107,7 @@ export default {
         throw error;
       }
     },
-    async updateNews({ commit }, {
+    async updateNews({ commit }: { commit: Function }, {
       title,
       description,
       image,
@@ -117,9 +117,9 @@ export default {
       commit('setLoading', true);
 
       try {
-        if (image.name) {
-          const imageExt = image.name.slice(image.name.length - 3, image.name.length);
-          await firebase.storage().ref(`news/${id}.${imageExt}`).put(image);
+        if (image!.name) {
+          const imageExt = image!.name.slice(image!.name.length - 3, image!.name.length);
+          await firebase.storage().ref(`news/${id}.${imageExt}`).put(image!);
           const imageSrc = await firebase.storage().ref(`news/${id}.${imageExt}`).getDownloadURL();
           await firebase.database().ref('news').child(id).update({
             title, description, image: imageSrc,
@@ -142,7 +142,7 @@ export default {
         throw error;
       }
     },
-    async deleteNews({ commit }, id: string) {
+    async deleteNews({ commit }: { commit: Function }, id: string) {
       commit('clearError');
       commit('setLoading', true);
 
@@ -165,11 +165,11 @@ export default {
   },
   modules: {},
   getters: {
-    newsList(state) {
+    newsList(state: Storage) {
       return state.newsList;
     },
-    newsById(state) {
-      return (newsId) => state.newsList.find((news) => news.id === newsId);
+    newsById(state: Storage) {
+      return (newsId: string) => state.newsList.find((news: NewsClass) => news.id === newsId);
     },
   },
 };

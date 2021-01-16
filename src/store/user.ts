@@ -17,12 +17,15 @@ export default {
     user: null,
   },
   mutations: {
-    setUser(state: any, payload: any) {
+    setUser(state: any, payload: User) {
       state.user = payload;
     },
   },
   actions: {
-    async loginUser({ commit }, { email, password }) {
+    async loginUser(
+      { commit }: { commit: Function },
+      { email, password }: { email: string; password: string },
+    ) {
       commit('clearError');
       commit('setLoading', true);
       try {
@@ -35,10 +38,10 @@ export default {
         throw error;
       }
     },
-    autoLoginUser({ commit }, pauload) {
-      commit('setUser', new User(pauload.uid));
+    autoLoginUser({ commit }: { commit: Function }, payload: User) {
+      commit('setUser', new User(payload.uid));
     },
-    logout({ commit }) {
+    logout({ commit }: { commit: Function }) {
       firebase.auth().signOut();
       commit('setUser', null);
     },

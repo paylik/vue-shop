@@ -31,13 +31,7 @@ let links;
 export default new Vuex.Store({
 
   state: {
-    links: links = [
-      {
-        title: 'Домой',
-        link: '',
-        id: 0,
-      },
-    ],
+    links: links = [],
     loading: false,
     error: null,
   },
@@ -51,7 +45,7 @@ export default new Vuex.Store({
     clearError(state) {
       state.error = null;
     },
-    loadLinks(state, payload) {
+    loadLinks(state, payload: Link) {
       state.links.push(...payload);
     },
     createLink(state, payload) {
@@ -59,8 +53,8 @@ export default new Vuex.Store({
     },
     updateLink(state, { title, description, id }) {
       const link = state.links.find((a) => a.id === id);
-      link.title = title;
-      link.description = description;
+      link!.title = title;
+      link!.description = description;
     },
   },
   actions: {
@@ -73,44 +67,7 @@ export default new Vuex.Store({
     clearError({ commit }) {
       commit('clearError');
     },
-    // async createNews({ commit }, payload) {
-    //   commit('clearError');
-    //   commit('setLoading');
-    //
-    //   const { image } = payload;
-    //
-    //   try {
-    //     const newNews = new News(
-    //       payload.title,
-    //       payload.description,
-    //       payload.image,
-    //       '',
-    //     );
-    //
-    //     const newsBD = await firebase.database().ref('news').push(newNews);
-    //     console.log('console.log newsBD ', newsBD);
-    //     const imageExt = image.slice(11, 14);
-    //     const fileData = await firebase.storage()
-    //     .ref(`news/${newsBD.key}.${imageExt}`).put(image);
-    //     const imageSrc = await firebase.storage()
-    //     .ref(`news/${newsBD.key}.${imageExt}`).getDownloadURL();
-    //
-    //     await firebase.database().ref('news').child(newsBD.key).update({
-    //       image: imageSrc,
-    //     });
-    //
-    //     commit('setLoading', false);
-    //     commit('createLink', {
-    //       ...newNews,
-    //       id: newsBD.key,
-    //       image: imageSrc,
-    //     });
-    //   } catch (error) {
-    //     commit('setError', error.message);
-    //     commit('setLoading', false);
-    //     throw error;
-    //   }
-    // },
+
     async fetchLinks({ commit }) {
       commit('clearError');
       commit('setLoading', true);

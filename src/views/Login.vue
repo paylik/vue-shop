@@ -68,7 +68,7 @@ export default class Login extends Vue {
     (v: any) => v.length >= 8 || 'Пароль должен быть не менее 8 символов'];
 
   private onSubmit(): void {
-    if (this.$refs.form.validate()) {
+    if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
       const user = {
         email: this.email,
         password: this.password,
