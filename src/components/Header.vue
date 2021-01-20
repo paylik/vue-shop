@@ -1,11 +1,15 @@
 <template>
+  <v-card >
   <v-app-bar app
              absolute
              color="#fcb69f"
              dark
              shrink-on-scroll
+             prominent
              src="https://picsum.photos/1920/1080?random"
-             @toggleDrawer="$emit('toggleDrawer')"
+             fade-img-on-scroll
+             scroll-target="#scrolling-techniques-5"
+             scroll-threshold="500"
   >
     <template v-slot:img="{ props }">
       <v-img
@@ -52,6 +56,7 @@
       </router-link>
     </v-btn>
   </v-app-bar>
+  </v-card>
 </template>
 
 <script lang="ts">

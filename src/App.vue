@@ -8,12 +8,12 @@
       <Drawer/>
     </v-navigation-drawer>
     <Header
-      @toggleDrawer="drawer = !drawer"
-    ></Header>
-    <v-main app>
+    @toggleDrawer="drawer = !drawer"
+  ></Header>
+    <v-main>
       <v-container>
-      <transition enter-active-class="animate__animated animate__fadeInRight"
-                  leave-active-class="animate__animated animate__fadeOutLeft"
+      <transition enter-active-class="animate__animated animate__fadeInRight animate__faster"
+                  leave-active-class="animate__animated animate__fadeOutLeft animate__faster"
                   mode="out-in"
       >
       <router-view v-if="!loading"></router-view>
@@ -27,6 +27,7 @@
       </transition>
     </v-container>
     </v-main>
+    <Footer/>
     <v-snackbar
       v-model="snackbar"
       :timeout="5000"
@@ -47,7 +48,6 @@
         </v-btn>
       </template>
     </v-snackbar>
-   <Footer/>
   </v-app>
 </template>
 

@@ -1,8 +1,7 @@
 /* eslint linebreak-style: ["error", "windows"] */
 <template>
-  <v-footer app
+  <v-footer
             color="primary lighten-1"
-            padless
   >
     <v-row
       justify="center"
@@ -23,7 +22,12 @@
         class="primary lighten-2 py-4 text-center white--text"
         cols="12"
       >
-        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+        {{ new Date().getFullYear() }} — <strong>
+        <a href="mailto:paylik@yandex.ru
+        ?subject=Запрос%20Женави%20Сморгонь
+        &body=Запрос%20Женави%20Сморгонь">
+          Разработка сайта: paylik@yandex.ru
+        </a></strong>
       </v-col>
     </v-row>
   </v-footer>

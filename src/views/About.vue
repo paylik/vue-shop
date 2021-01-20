@@ -2,6 +2,7 @@
   <div>
   <app-content></app-content>
     <v-container>
+      <v-row justify="center">
       <yandex-map
         :coords="[54.480882, 26.402114]"
         zoom="18"
@@ -19,6 +20,7 @@
           cluster-name="1"
         ></ymap-marker>
       </yandex-map>
+      </v-row>
     </v-container>
   </div>
 </template>

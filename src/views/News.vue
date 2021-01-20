@@ -65,12 +65,16 @@ export default class News extends Vue {
   }
 
   private onDelete(): void {
-    const { id } = this.news;
+    // eslint-disable-next-line no-restricted-globals
+    const sure = confirm('Вы уверены, что хотите удалить новость?');
+    if (sure) {
+      const { id } = this.news;
 
-    this.$store.dispatch('deleteNews', id)
-      .then(() => { this.$router.push('/'); })
+      this.$store.dispatch('deleteNews', id)
+        .then(() => { this.$router.push('/'); })
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      .catch(() => {});
+        .catch(() => {});
+    }
   }
 }
 </script>
