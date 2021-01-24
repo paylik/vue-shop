@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="col-lg-10 mx-auto">
     <v-navigation-drawer
       app
       temporary
@@ -118,7 +118,7 @@ export default class App extends Vue {
 
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -138,6 +138,10 @@ export default class App extends Vue {
       color: #42b983;
     }
   }
+}
+
+.mx-auto {
+  margin: auto;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet');

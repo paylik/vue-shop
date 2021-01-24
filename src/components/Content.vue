@@ -73,9 +73,7 @@ class Link {
 export default class Content extends Vue {
   private nameIdNew = this.$router;
 
-  private nameId = this.$route.name.toLowerCase();
-
-  private n = this.nameId === undefined ? this.nameIdNew : this.nameId
+  private n = this.$route.name === undefined ? this.nameIdNew : this.$route.name
 
   private linksOb: Link = this.$store.getters.links.find(
     (ob: Link) => ob.link === this.n,
@@ -94,7 +92,7 @@ export default class Content extends Vue {
 
   private description: string = this.link.description;
 
-  private image: File | null = this.link.image;
+  private image: string | ArrayBuffer |null = this.link.image;
 
   private img = 'null';
 

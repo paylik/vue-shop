@@ -3,9 +3,9 @@ import Vuex from 'vuex';
 import firebase from 'firebase';
 
 class User {
-  private id: number;
+  private id: string;
 
-  constructor(id: number) {
+  constructor(id: string) {
     this.id = id;
   }
 }
@@ -30,7 +30,7 @@ export default {
       commit('setLoading', true);
       try {
         const user = await firebase.auth().signInWithEmailAndPassword(email, password);
-        commit('setUser', new User(user.uid));
+        commit('setUser', new User(user.user!.uid));
         commit('setLoading', false);
       } catch (error) {
         commit('setLoading', false);
@@ -38,7 +38,7 @@ export default {
         throw error;
       }
     },
-    autoLoginUser({ commit }: { commit: Function }, payload: User) {
+    autoLoginUser({ commit }: { commit: Function }, payload: any) {
       commit('setUser', new User(payload.uid));
     },
     logout({ commit }: { commit: Function }) {

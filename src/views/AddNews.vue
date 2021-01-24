@@ -83,6 +83,8 @@ export default class AddNews extends Vue {
 
   private valid = false;
 
+  private newImage: string | ArrayBuffer | null = null;
+
   private onFileChange(event: any): void {
     if (event !== undefined) {
       const reader = new FileReader();

@@ -7,13 +7,13 @@ import news from './news';
 Vue.use(Vuex);
 
 class Link {
-  private title: string;
+  title: string;
 
   private link: string;
 
   private image: string;
 
-  private description: string;
+  description: string;
 
   private id: string;
 
@@ -25,13 +25,12 @@ class Link {
     this.id = id;
   }
 }
-
-let links;
+const links: Link[] = [];
 
 export default new Vuex.Store({
 
   state: {
-    links: links = [],
+    links: links,
     loading: false,
     error: null,
   },
@@ -45,16 +44,18 @@ export default new Vuex.Store({
     clearError(state) {
       state.error = null;
     },
-    loadLinks(state, payload: Link) {
+    loadLinks(state, payload) {
       state.links.push(...payload);
     },
-    createLink(state, payload) {
+    createLink(state, payload: Link) {
       state.links.push(payload);
     },
-    updateLink(state, { title, description, id }) {
-      const link = state.links.find((a) => a.id === id);
-      link!.title = title;
-      link!.description = description;
+    updateLink(state, { title, description, id }: any) {
+      const link = state.links.find((a: any) => a.id === id);
+      if (link) {
+        link.title = title;
+        link.description = description;
+      }
     },
   },
   actions: {
@@ -99,7 +100,6 @@ export default new Vuex.Store({
     }) {
       commit('clearError');
       commit('setLoading', true);
-      console.log(image);
       try {
         if (image.name) {
           const imageExt = image.name.slice(image.name.length - 3, image.name.length);

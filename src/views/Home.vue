@@ -1,8 +1,24 @@
 <template>
   <div class="home">
     <v-container>
+      <v-row justify="center">
+        <v-col cols="2" class="d-none d-lg-block">
+          <v-img src="http://shop.nbacademy.ru/img/logo-jenavi-smorgon-3.png"></v-img>
+        </v-col>
+        <v-col cols="12" lg="8">
+          <div class="logo_time">
+            <h2>ТОРГОВЫЙ ОБЪЕКТ 'ЖЕНАВИ' </h2>
+            <h3>РЕЖИМ РАБОТЫ: <br>пн-пт 10<sup>00</sup>-20<sup>00</sup>,
+              сб-вс 10<sup>00</sup>-19<sup>00</sup>,
+              перерыв 14<sup>00</sup>-15<sup>00</sup></h3>
+            <p>Директор Ольга Николаевна +375-29-782-33-37 (мтс) </p></div>
+        </v-col>
+        <v-col cols="1" class="d-none d-lg-block">
+          <v-img src="http://shop.nbacademy.ru/img/Swarovski-logo.jpg"></v-img>
+        </v-col>
+      </v-row>
       <v-row>
-        <v-col>
+        <v-col class="d-none d-md-block">
           <v-carousel cycle>
             <v-carousel-item
               v-for="news in newsList"
@@ -11,7 +27,7 @@
               reverse-transition="scroll-x-reverse-transition"
               transition="scroll-x-transition"
             >
-              <div class="news-link">
+              <div class="news-link float-right">
                 <v-btn class="error" :to="'/news/' + news.id">{{ news.title }}</v-btn>
               </div>
             </v-carousel-item>
@@ -19,7 +35,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col v-for="news in newsList" :key="news.title">
+        <v-col v-for="news in newsList" :key="news.title" class="col-lg-4">
           <v-card
             class="mx-auto"
             max-width="344"
@@ -75,21 +91,6 @@ import { NewsClass } from '@/store/news';
 
 @Component
 export default class Home extends Vue {
-  private items: Array<any> = [
-    {
-      src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-    },
-    {
-      src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-    },
-    {
-      src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-    },
-    {
-      src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-    },
-  ]
-
   private show = false
 
   private newsList: Array<NewsClass> = this.$store.getters.newsList

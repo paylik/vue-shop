@@ -91,9 +91,9 @@ export default class EditNewsModal extends Vue {
 
   private editedDescription = this.news.description;
 
-  private editedImage = this.news.image;
-
   private editFile = this.news.image;
+
+  private editedImage: string | ArrayBuffer | File | null = this.editFile;
 
   private onFileChange(event: any): void {
     const file = event.name;
